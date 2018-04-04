@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import re
 
 # website urls
 paxsite ='http://www.paxsite.com'
@@ -27,6 +28,11 @@ southsite_content = BeautifulSoup(southsite_response.content, "html.parser")
 aussite_content = BeautifulSoup(aussite_response.content, "html.parser")
 unpluggedsite_content = BeautifulSoup(unpluggedsite_response.content, "html.parser")
 devsite_content = BeautifulSoup(devsite_response.content, "html.parser")
+
+# patterns to check for in the content
+registration_pattern_now = re.compile("^((?=.*\bRegistration\b)(?=.*\bopen\b).*)|((?=.*\bRegister\b)(?=.*\bnow\b)).*$")
+registration_pattern_soon = re.compile("^(?=.*((\bopens\b)|(\bopening\b)))(?=.*\bsoon\b).*$")
+badge_pattern = re.compile("^(?=.*\bbadge\b)((?=.*\bsale\b)|(?=.*\bnow\b)).*$")
 
 paxsite_west_status = paxsite_content.find(id='west').find('p').getText().lower()
 westsite_hero = westsite_content.findAll('section','slide-text')
